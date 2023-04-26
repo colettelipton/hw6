@@ -95,5 +95,85 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
 //add your solution here!
+// r is row, c is col
+// dr and dc set the search direction - use to set r and c
+if(r == board.size() || c == board[0].size()){
+	// true if you found a word, true if we've successfully added word
+	if(dict.find(word) != dict.end()){
+		result.insert(word);
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+if(prefix.find(word) != prefix.end()){
+	word += board[r][c];
+	r += dr;
+	c += dc;
+
+	bool x = boggleHelper(dict, prefix, board, word, result, r, c, dr, dc);
+	if(!x){
+		if(dict.find(word) != dict.end()){
+			result.insert(word);
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	else{
+		return true;
+	}
+}
+// if word is not a prefix
+else{
+	if(dict.find(word) != dict.end()){
+		result.insert(word);
+		return true;
+	}
+	else return false;
+}
+
+// if it's not a valid prefix we know we don't have to keep exploring
+
 
 }
+
+/* 
+if((row > 8 || col > 8) && isValid(8,8)){
+    return true;
+  } 
+  else if(row > 8 || col > 8) return false;
+
+  bool x;
+
+  if(board[row][col] == 0){
+    for(int i = 1; i < 10; i++){
+      board[row][col] = i;
+      if(isValid(row, col)){
+        if(col == 8) {
+          x = solveHelper(row + 1, 0);
+        } else {
+          x = solveHelper(row, col + 1);
+        }
+        if(x){
+          return true;
+        }
+        else{
+          continue;
+        }
+      }
+    }
+    board[row][col] = 0;
+  }
+  else{
+    if(col == 8) {
+          return solveHelper(row + 1, 0);
+        } else {
+          return solveHelper(row, col + 1);
+        }
+  }
+  return false;
+*/
